@@ -11,7 +11,7 @@
                             style="width: 260px; height: 260px;">
                     </div>
                     <div class="productDetails">
-                        <div class="productName text-dark">{{ $item->PRODUCT_NAME }}</div>
+                        <div class="productName text-dark ">{{ $item->PRODUCT_NAME }}</div>
                     </div>
                 </div>
             @endforeach

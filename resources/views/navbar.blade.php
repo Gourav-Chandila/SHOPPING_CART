@@ -10,7 +10,8 @@
 
 @if ($loggedin)
     {{-- if user is  logged in then show this navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgba(0, 0, 0, 0.3);">
+    {{-- <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgba(0, 0, 0, 0.3);"> --}}
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: rgba(23, 162, 184, 0.6);">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +46,8 @@
     </nav>
 @else
     {{-- if user is not logged in then show this navbar --}}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top ">
+    {{-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top "> --}}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info fixed-top ">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
                 aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">

@@ -58,7 +58,8 @@ class LoginController extends Controller
             
             // check in db shows where phno  1433214585  CONTACT_MECH_PURPOSE_TYPE_ID='GENERAL_LOCATION' but in navbar show PRIMARY_PHONE
             Session::put('CONTACT_MECH_PURPOSE_TYPE_ID', $userLogin->CONTACT_MECH_PURPOSE_TYPE_ID);
-
+            
+            //redirect to welocome page if login was successfull
             return redirect('/');
         } else {
             Log::warning('Login failed for phone number: ' . $phonenumber);

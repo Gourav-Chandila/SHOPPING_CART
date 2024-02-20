@@ -69,9 +69,110 @@
 
 /* navbar css */
 .text-glow {
-    color: #ffffff; /* White or off-white */
-    text-shadow: 
-        0 0 10px rgba(255, 255, 255, 0.7), /* White glow */
-        0 0 20px rgba(255, 255, 255, 0.5), /* Softer glow */
-        0 0 30px rgba(255, 255, 255, 0.3); /* Faint glow */
+    color: #ffffff;
+    /* White or off-white */
+    text-shadow:
+        0 0 10px rgba(255, 255, 255, 0.7),
+        /* White glow */
+        0 0 20px rgba(255, 255, 255, 0.5),
+        /* Softer glow */
+        0 0 30px rgba(255, 255, 255, 0.3);
+    /* Faint glow */
+}
+
+
+/* show product css */
+/* Show product CSS */
+.custom-card {
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    /* Add shadow for depth */
+    background-color: #fff;
+    /* Set background color */
+}
+
+.custom-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    /* Add stronger shadow on hover */
+}
+
+.custom-card .card-body {
+    padding: 20px;
+}
+
+.custom-card .card-title {
+    font-weight: bold;
+    color: #333;
+    /* Change title color for better readability */
+    font-size: 1.2rem;
+    /* Increase title font size */
+    margin-bottom: 10px;
+    /* Add some space below title */
+}
+
+.custom-card .card-text {
+    font-size: 16px;
+    color: #666;
+    /* Adjust text color */
+    margin-bottom: 15px;
+    /* Add space below text */
+}
+
+.custom-card .image-container {
+    position: relative;
+    /* Set position for absolute overlay */
+    overflow: hidden;
+    border-radius: 15px 15px 0 0;
+    /* Round corners only at the top */
+}
+
+.custom-card .image-overlay {
+    position: absolute;
+    /* Position the overlay */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black overlay */
+    opacity: 0;
+    /* Initially invisible */
+    transition: opacity 0.3s ease;
+    /* Smooth transition */
+    border-radius: 15px 15px 0 0;
+    /* Match the container's border radius */
+}
+
+.custom-card:hover .image-overlay {
+    opacity: 1;
+    /* Show overlay on hover */
+}
+
+
+/* Define the hover effect */
+.productTitle {
+    transition: color 0.3s ease;
+}
+
+.productTitle:hover {
+    color: #17a2b8;
+    /* Change to whatever color you prefer */
+}
+
+.custom-card .btn {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    
+
+}
+
+.custom-card .btn:hover {
+    background-color: #979696;
+    /* Darker color on hover */
 }
