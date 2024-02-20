@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 
@@ -38,19 +39,24 @@ class CartController extends Controller
     public function removeItem(Request $request)
     {
         // Logic to remove item from the cart
-        $product_id_to = $request->query('product_id_to');
-        Log::warning('product id to is: ' . $product_id_to);
+        $concatProductIdTO = $request->query('product_id_to');
+        $size = $request->query('size');
 
+        // Remove the size from the concatProductIdTO and store it in another variable
+        $productIdTo = str_replace('_' . $size, '', $concatProductIdTO);
 
         // Retrieve the session data
         $selectedProducts = session('selectedProducts');
-        Log::warning('Before unset session: ' . json_encode($selectedProducts));
+
+
+        // Call the function
+        $this->decrementCartCount();
 
         if ($selectedProducts) {
             // Iterate through the products array using key-value pairs
             foreach ($selectedProducts as $key => $product) {
                 // Check if the current product matches the specified product_id_to
-                if ($product['product_id_to'] === 'W_SH_FR_200_1') {
+                if ($product['product_id_to'] === $productIdTo && $product['size'] === $size) {
                     // Remove the product from the array using the key
                     unset($selectedProducts[$key]);
                 }
@@ -58,12 +64,36 @@ class CartController extends Controller
 
             // Update the session data with the modified array
             session(['selectedProducts' => $selectedProducts]);
-            Log::warning('After unset session: ' . json_encode($selectedProducts));
+
+            // Return a success response
+            return response()->json(['success' => true]);
         }
 
-
-
+        // Return a failure response if the item was not found or could not be removed
+        return response()->json(['success' => false]);
     }
 
+
+
+
+    function decrementCartCount()
+    {
+        // Retrieve the cartCount from the session
+        $cartCount = session('cartCount');
+
+        // If the cartCount exists and is greater than 0, decrement it by 1
+        if ($cartCount && $cartCount > 0) {
+            $cartCount--;
+
+            // Update the session with the new cartCount
+            session(['cartCount' => $cartCount]);
+
+            // Log the updated cartCount
+            Log::info("Updated cart count is " . $cartCount);
+        } else {
+            // Log a message indicating that the cart is already empty
+            Log::info("Cart is already empty");
+        }
+    }
 }
 

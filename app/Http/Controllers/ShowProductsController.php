@@ -17,10 +17,11 @@ class ShowProductsController extends Controller
 
         //calling getProductJson() from ProductService and $for . '%' eg 'MN_SH_SP%'
         $productsData = $productService->getProductJson($for . '%');
-
+        $cartCount = session('cartCount');
         // Return the products view with the product data
         return view('show_products', [
-            'products' => $productsData
+            'products' => $productsData,
+            'cartCount' => $cartCount
 
         ]);
     }

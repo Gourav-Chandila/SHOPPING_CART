@@ -23,35 +23,44 @@
                 </div>
 
                 {{-- Cart items --}}
-                @foreach ($selectedProducts as $selectedProduct)
-                    @php
-                        $uniqueProductIdTo = $selectedProduct['product_id_to'] . '_' . $selectedProduct['size'];
+                @if (!empty($selectedProducts) && is_array($selectedProducts))
+                    @foreach ($selectedProducts as $selectedProduct)
+                        @php
+                            $uniqueProductIdTo = $selectedProduct['product_id_to'] . '_' . $selectedProduct['size'];
+                            $size = $selectedProduct['size'];
 
-                    @endphp
-                    <div id="item-{{ $uniqueProductIdTo }}" class="row border-top border-bottom">
-                        <div class="row main align-items-center">
-                            <div class="col-2"><img class="img-fluid" src="{{ asset($selectedProduct['productImage']) }}">
-                            </div>
-                            <div class="col">
-                                <div class="row text-muted">{{ htmlspecialchars($selectedProduct['productName']) }}</div>
-                                <div class="row">Size : {{ $selectedProduct['size'] }}</div>
-                            </div>
+                        @endphp
+                        <div id="item-{{ $uniqueProductIdTo }}" class="row border-top border-bottom">
+                            <div class="row main align-items-center">
+                                <div class="col-2"><img class="img-fluid"
+                                        src="{{ asset($selectedProduct['productImage']) }}">
+                                </div>
+                                <div class="col">
+                                    <div class="row text-muted">{{ htmlspecialchars($selectedProduct['productName']) }}
+                                    </div>
+                                    <div class="row">Size : {{ $selectedProduct['size'] }}</div>
+                                </div>
 
-                            {{-- Quantity controls --}}
-                            <div class="quantity-controls">
-                                <a href="#" onclick="decrementQuantity(); event.preventDefault();">-</a>
-                                <span id="quantity-' . $key . '">{{ $selectedProduct['quantity'] }}</span>
-                                <a href="#" onclick="incrementQuantity(''); event.preventDefault();">+</a>
-                            </div>
+                                {{-- Quantity controls --}}
+                                <div class="quantity-controls">
+                                    <a href="#" onclick="decrementQuantity(); event.preventDefault();">-</a>
+                                    <span id="quantity-' . $key . '">{{ $selectedProduct['quantity'] }}</span>
+                                    <a href="#" onclick="incrementQuantity(''); event.preventDefault();">+</a>
+                                </div>
 
-                            <div class="col"></div>
-                            <div class="col ">&#8377; {{ $selectedProduct['price'] }}
-                                {{-- <span class="close"onclick="">&#10005;</span> --}}
-                                <span class="close" onclick="removeItem('{{ $uniqueProductIdTo }}')">&#10005;</span>
+                                <div class="col"></div>
+                                <div class="col ">&#8377; {{ $selectedProduct['price'] }}
+                                    {{-- <span class="close"onclick="">&#10005;</span> --}}
+                                    <span class="close"
+                                        onclick="removeItem('{{ $uniqueProductIdTo }}', '{{ $size }}')">&#10005;</span>
+
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                @else
+                    <p>No products found.</p>
+                @endif
 
                 <div class="back-to-shop">
                     <a href="#">&leftarrow;</a>
@@ -109,14 +118,24 @@
 
 @section('scripts')
     <script>
-        function removeItem(uniqueProductIdTo) {
+        function removeItem(uniqueProductIdTo, size) {
             var xhr = new XMLHttpRequest();
 
-            xhr.open('GET', '{{ route('remove.item') }}?product_id_to=' + uniqueProductIdTo, true);
+            xhr.open('GET', '{{ route('remove.item') }}?product_id_to=' + uniqueProductIdTo + '&size=' +
+                encodeURIComponent(size));
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4) {
                     if (xhr.status == 200) {
-                        // Handle success response if needed
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.success) {
+                            // Item removed successfully, update the cart view
+                            var itemToRemove = document.getElementById('item-' + uniqueProductIdTo);
+                            itemToRemove.parentNode.removeChild(itemToRemove);
+                            // You might need to update other parts of the cart view as well (e.g., total price)
+                        } else {
+                            // Handle failure scenario
+                            console.error('Failed to remove item from the cart.');
+                        }
                     } else {
                         console.error('Error:', xhr.status, xhr.statusText);
                     }

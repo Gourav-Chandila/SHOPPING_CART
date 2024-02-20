@@ -1,7 +1,7 @@
 @php
     echo '<pre>';
     // echo json_encode($products, JSON_PRETTY_PRINT);
-    echo '</pre>'; 
+    echo '</pre>';
 @endphp
 
 @extends('layouts.app')
@@ -40,15 +40,16 @@
     {{-- including navbar --}}
     @include('navbar')
 
- {{-- <!-- Include the CSRF token -->
- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
 
 
     <!-- Add to cart icon -->
     <div class="cart-icon-container my-5">
         <a href="{{ route('cart') }}" class="cart-link text-decoration-none">
             <i class="bi bi-cart display-4 text-info mt-5 "></i>
-            <span id="cartCount" class="badge badge-info ">0</span>
+            <span id="cartCount" class="badge badge-info ">{{ $cartCount ?? 0 }}
+
+
+            </span>
         </a>
     </div>
 
